@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kubia
+spec:
+  serviceName: kubia
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - name: kubia
+        image: luksa/kubia-pet
+        ports:
+        - name: http
+          containerPort: 8080
+        volumeMounts:
+        - name: azure-managed-disk
+          mountPath: /var/data
+  volumeClaimTemplates:
+  - metadata:
+      name: azure-managed-disk
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: managed-premium-retain
+      resources:
+        requests:
+          storage: 10Gi
+    
+    
