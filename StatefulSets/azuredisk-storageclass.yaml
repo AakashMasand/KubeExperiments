@@ -1,0 +1,16 @@
+# Each StorageClass needs a provisioner, parameters and a reclaimPolicy
+
+# AKS storage class options - default and managed-premium -- Choice to be made as per node storage
+# the best way to go about this is to use at the OS disk being used by the Node.
+
+# The reclaim policy indicates that the underlying Azure Disk is deleted when the persistent volume that
+# used it is deleted.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: managed-premium-retain
+provisioner: kubernetes.io/azure-disk
+reclaimPolicy: Retain #delete to delete the PV and retain to retain the PV
+parameters:
+  storageaccounttype: Premium_LRS
+  kind: Managed
